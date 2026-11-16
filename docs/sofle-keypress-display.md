@@ -7,9 +7,14 @@ Do not flash another keyboard's firmware or any `settings_reset` image.
 ## Files to use
 
 - New display: `sofle_choc_pro_left_keypress.uf2`.
+- Matching right half: `sofle_choc_pro_bt_right.uf2` from the same build.
 - Original display / rollback: `sofle_choc_pro_bt_left.uf2` from the same build.
-- Leave the right half on its existing firmware. Its artwork, connection indicator,
-  encoder bindings and split protocol have not been modified.
+
+Use the `sofle-matched-firmware` ZIP to install the new left display and matching
+right firmware. See [split recovery and two-half flashing](sofle-split-recovery.md).
+The right artwork, connection indicator, encoder bindings and split protocol
+have not been modified. The original-display left image remains available in
+the full `firmware` artifact for rollback.
 
 The branch is based on Keebart commit
 `98c5a1181ff7db1f480f684f714126922d55b8f0`, with Keebart's ZMK `v0.3` manifest
@@ -17,7 +22,8 @@ and reusable build workflow. The upstream keymap, shared Sofle configuration,
 board definitions, encoder resolution, Studio, USB, Bluetooth and settings
 partitions are unchanged. Saved Studio keymaps take precedence as usual.
 The version currently installed on your keyboard cannot be established from
-source code; left-only split compatibility must therefore be checked on-device.
+source code. Building both halves together removes firmware version mismatch as
+a variable; successful reconnection still requires physical-device testing.
 
 ## Display
 
@@ -87,9 +93,9 @@ host input-field types. Disable the feature at build time when that is unwanted.
 ## Build and tests
 
 GitHub: push the feature branch, open Actions → **Build ZMK firmware**, and
-download the `sofle-left-firmware` artifact from the successful run for that exact
-commit. It contains only the new left UF2, original-display left UF2, these
-instructions, source commit and SHA-256 checksums. Packaging verifies each UF2's
+download the `sofle-matched-firmware` artifact from the successful run for that
+exact commit. It contains only the new left UF2, matching right UF2, flashing and
+display instructions, source commit and SHA-256 checksums. Packaging verifies each UF2's
 block format, nRF52840 family, vectors and addresses: all payload writes must be
 inside the existing application partition, never settings or bootloader storage.
 The full Keebart matrix remains available in the separate `firmware` artifact.
@@ -113,6 +119,13 @@ west build -s zmk/app -d build/sofle-keypress -b sofle_choc_pro_left \
   -DCONFIG_ZMK_STUDIO=y \
   -DCONFIG_SOFLE_KEYPRESS_DISPLAY=y
 cp build/sofle-keypress/zephyr/zmk.uf2 sofle_choc_pro_left_keypress.uf2
+
+west build -s zmk/app -d build/sofle-right -b sofle_choc_pro_right \
+  -S studio-rpc-usb-uart -- \
+  -DZMK_CONFIG="$config_repo/config" \
+  -DZMK_EXTRA_MODULES="$config_repo" \
+  -DSHIELD=sharp_mip
+cp build/sofle-right/zephyr/zmk.uf2 sofle_choc_pro_bt_right.uf2
 ```
 
 For the original display, build into a separate directory with the same command,
@@ -122,9 +135,11 @@ that file is also used for the right-half build.
 
 ## Flash on Linux (manual)
 
-1. Extract the successful firmware ZIP. Keep both left images, including the
-   original-display image, somewhere accessible. If your current firmware was
-   customized elsewhere, retain its original left UF2 as well.
+For restoring split communication after a left-only update, follow
+[the matched-pair procedure](sofle-split-recovery.md) first. The procedure below
+is for subsequent left-only updates once the matching right firmware is installed.
+
+1. Extract the successful firmware ZIP. Retain any previous firmware backups.
 2. Keep the **left half** connected directly to Linux by a data-capable USB-C
    cable. Do not connect the right half by USB during this procedure.
 3. Quickly double-press the physical reset button on the **left half**. A USB

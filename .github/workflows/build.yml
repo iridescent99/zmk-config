@@ -6,7 +6,7 @@ jobs:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
 
   sofle-delivery:
-    name: Verify and package Sofle left firmware
+    name: Verify and package matched Sofle firmware
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -17,16 +17,17 @@ jobs:
           path: firmware
       - name: Verify application-only UF2 images and package instructions
         run: |
-          mkdir sofle-left
-          cp firmware/sofle_choc_pro_left_keypress.uf2 sofle-left/
-          cp firmware/sofle_choc_pro_bt_left.uf2 sofle-left/
-          python3 tests/keypress/verify_uf2.py sofle-left/*.uf2
-          cp docs/sofle-keypress-display.md sofle-left/FLASHING.md
-          printf '%s\n' "$GITHUB_SHA" > sofle-left/SOURCE_COMMIT.txt
-          cd sofle-left
+          mkdir sofle-matched
+          cp firmware/sofle_choc_pro_left_keypress.uf2 sofle-matched/
+          cp firmware/sofle_choc_pro_bt_right.uf2 sofle-matched/
+          python3 tests/keypress/verify_uf2.py sofle-matched/*.uf2
+          cp docs/sofle-split-recovery.md sofle-matched/FLASHING.md
+          cp docs/sofle-keypress-display.md sofle-matched/DISPLAY.md
+          printf '%s\n' "$GITHUB_SHA" > sofle-matched/SOURCE_COMMIT.txt
+          cd sofle-matched
           sha256sum *.uf2 > SHA256SUMS
           cat SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
-          name: sofle-left-firmware
-          path: sofle-left
+          name: sofle-matched-firmware
+          path: sofle-matched
