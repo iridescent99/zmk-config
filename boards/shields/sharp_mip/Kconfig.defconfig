@@ -42,6 +42,16 @@ config SHARP_MIP_WIDGET_INVERTED
 config SHARP_MIP_ROTATE_180
     bool "Rotate Sharp MIP display 180 degrees"
 
+config SOFLE_SPLIT_DIAGNOSTICS
+    bool "Temporary read-only Sofle right split diagnostics"
+    depends on BOARD_SOFLE_CHOC_PRO_RIGHT && ZMK_SPLIT_BLE && !ZMK_SPLIT_ROLE_CENTRAL
+    depends on ZMK_DISPLAY && SHARP_MIP_WIDGET_STATUS && ZMK_DISPLAY_WORK_QUEUE_DEDICATED
+    select LV_FONT_UNSCII_8
+    help
+        Show local scan activity, BLE security and key notification subscription
+        in the right status area. No key identity, history, logging, persistent
+        writes, bond changes or transport changes. Disable after diagnosis.
+
 if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
 config SOFLE_KEYPRESS_DISPLAY

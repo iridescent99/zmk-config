@@ -22,6 +22,9 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/ble.h>
 
 #include "peripheral_status.h"
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_DIAGNOSTICS)
+#include "split_diagnostics.h"
+#endif
 
 LV_IMG_DECLARE(balloon);
 LV_IMG_DECLARE(mountain);
@@ -32,9 +35,7 @@ struct peripheral_status_state {
     bool connected;
 };
 
-static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_state *state) {
-    lv_obj_t *canvas = lv_obj_get_child(widget, 0);
-
+static void draw_top(lv_obj_t *canvas, lv_color_t cbuf[], const struct status_state *state) {
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_16, LV_TEXT_ALIGN_RIGHT);
     lv_draw_rect_dsc_t rect_black_dsc;
@@ -50,6 +51,10 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     lv_canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc,
                         state->connected ? LV_SYMBOL_WIFI : LV_SYMBOL_CLOSE);
 
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_DIAGNOSTICS)
+    sofle_split_diag_draw(canvas);
+#endif
+
     // Rotate canvas
     rotate_canvas(canvas, cbuf);
 }
@@ -62,7 +67,7 @@ static void set_battery_status(struct zmk_widget_status *widget,
 
     widget->state.battery = state.level;
 
-    draw_top(widget->obj, widget->cbuf, &widget->state);
+    draw_top(widget->status_canvas, widget->cbuf, &widget->state);
 }
 
 static void battery_status_update_cb(struct battery_status_state state) {
@@ -95,13 +100,22 @@ static void set_connection_status(struct zmk_widget_status *widget,
                                   struct peripheral_status_state state) {
     widget->state.connected = state.connected;
 
-    draw_top(widget->obj, widget->cbuf, &widget->state);
+    draw_top(widget->status_canvas, widget->cbuf, &widget->state);
 }
 
 static void output_status_update_cb(struct peripheral_status_state state) {
     struct zmk_widget_status *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_connection_status(widget, state); }
 }
+
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_DIAGNOSTICS)
+static void diagnostics_update(void) {
+    struct zmk_widget_status *widget;
+    SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
+        draw_top(widget->status_canvas, widget->cbuf, &widget->state);
+    }
+}
+#endif
 
 ZMK_DISPLAY_WIDGET_LISTENER(widget_peripheral_status, struct peripheral_status_state,
                             output_status_update_cb, get_state)
@@ -119,6 +133,7 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget->obj = lv_obj_create(parent);
     lv_obj_set_size(widget->obj, 160, 68);
     lv_obj_t *top = lv_canvas_create(widget->obj);
+    widget->status_canvas = top;
     lv_obj_align(top, LV_ALIGN_TOP_LEFT, top_pos, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
 
@@ -130,6 +145,12 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
     widget_peripheral_status_init();
+
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_DIAGNOSTICS)
+    /* Keep the diagnostic lines visible above the overlapping artwork. */
+    lv_obj_move_foreground(top);
+    sofle_split_diag_init(diagnostics_update);
+#endif
 
     return 0;
 }

@@ -31,3 +31,17 @@ jobs:
         with:
           name: sofle-matched-firmware
           path: sofle-matched
+      - name: Package read-only right diagnostics separately
+        run: |
+          mkdir sofle-diagnostics
+          cp firmware/sofle_choc_pro_right_diagnostics.uf2 sofle-diagnostics/
+          python3 tests/keypress/verify_uf2.py sofle-diagnostics/*.uf2
+          cp docs/sofle-split-diagnostics.md sofle-diagnostics/READ-ME.md
+          printf '%s\n' "$GITHUB_SHA" > sofle-diagnostics/SOURCE_COMMIT.txt
+          cd sofle-diagnostics
+          sha256sum *.uf2 > SHA256SUMS
+          cat SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sofle-right-diagnostics
+          path: sofle-diagnostics
