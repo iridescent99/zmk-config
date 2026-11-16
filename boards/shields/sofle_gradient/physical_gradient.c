@@ -20,11 +20,12 @@ struct gradient_rgb sofle_physical_gradient(struct gradient_rgb input, bool righ
     unsigned peak = input.r > input.g ? input.r : input.g;
     if (input.b > peak) { peak = input.b; }
     unsigned x = sofle_led_x(right, led);
-    /* Reference palette: lavender #c4a8f0 -> lilac #dd79e8 -> pink #e34eb8.
+    /* Blue-dominant palette: light blue #60c0ff -> lilac #a070ff.
+     * Keep blue at full scale throughout, without a pink/magenta endpoint.
      * Fixed spatial palette, scaled only by ZMK brightness (including off).
      * Interpolation never exceeds the incoming peak or the board power cap.
      */
-    static const uint8_t palette[3][3] = {{196,168,240},{221,121,232},{227,78,184}};
+    static const uint8_t palette[3][3] = {{96,192,255},{128,152,255},{160,112,255}};
     unsigned segment = x >= SOFLE_WIDTH/2;
     unsigned t = x - segment * (SOFLE_WIDTH/2);
     uint8_t out[3];

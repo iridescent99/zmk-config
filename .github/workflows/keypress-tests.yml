@@ -15,9 +15,16 @@ jobs:
           repository: zephyrproject-rtos/lvgl
           ref: 8a6a2d1d29d17d1e4bdc94c243c146a39d635fdd
           path: .test-lvgl
+      - uses: actions/checkout@v4
+        with:
+          repository: zephyrproject-rtos/zephyr
+          ref: dacab4875df72109b96cc8977547a0dc04875bcd
+          path: .test-zephyr
+          sparse-checkout: modules/lvgl/lvgl_display_mono.c
+          sparse-checkout-cone-mode: false
       - name: Exercise actual display adapter with pinned monochrome LVGL
         run: |
-          cmake -S tests/display -B /tmp/sofle-display-test -DLVGL_SOURCE="$PWD/.test-lvgl"
+          cmake -S tests/display -B /tmp/sofle-display-test -DLVGL_SOURCE="$PWD/.test-lvgl" -DZEPHYR_SOURCE="$PWD/.test-zephyr"
           cmake --build /tmp/sofle-display-test --target display_test -j2
           /tmp/sofle-display-test/display_test
           cmake --build /tmp/sofle-display-test --target orbit_test -j2

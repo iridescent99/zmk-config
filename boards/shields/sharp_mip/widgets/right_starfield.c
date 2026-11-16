@@ -14,10 +14,16 @@ static lv_color_t starfield_buffer[STARFIELD_WIDTH * STARFIELD_HEIGHT];
 static bool starfield_active;
 static uint32_t starfield_frame;
 static void draw_starfield(void) {
-    /* lv_color1_t.full is a byte: black=0, white=1. Unsigned char may alias it.
-     * One invalidation per complete frame, with all work on the display queue. */
+    /* The scene is a white-star mask (1=star). The pinned Zephyr MONO01
+     * adapter sends LVGL 0 as a set bit, while the Sharp LS0xx panel shows
+     * set bits as white. Compensate here, not globally: the status header
+     * and working left display retain their existing polarity. */
     sofle_starfield_render((uint8_t *)starfield_buffer, starfield_frame,
                           IS_ENABLED(CONFIG_SHARP_MIP_ROTATE_180));
+    for (size_t i = 0; i < STARFIELD_WIDTH * STARFIELD_HEIGHT; i++) {
+        starfield_buffer[i].full ^= 1U;
+    }
+    /* One invalidation per complete frame, on the dedicated display queue. */
     lv_obj_invalidate(starfield_canvas);
 }
 static void starfield_tick(struct k_work *work);

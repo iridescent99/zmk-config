@@ -12,7 +12,14 @@ target_include_directories(orbit_test PRIVATE stubs . ${widget_dir})
 target_compile_options(orbit_test PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(orbit_test PRIVATE lvgl m)
 
-add_executable(starfield_test starfield_test.c ${widget_dir}/starfield_scene.c)
+# Compile the actual firmware-version Zephyr transfer code, with only the
+# display device mocked. This catches polarity bugs missed by a raw LVGL test.
+configure_file(${ZEPHYR_SOURCE}/modules/lvgl/lvgl_display_mono.c
+               ${CMAKE_CURRENT_BINARY_DIR}/lvgl_display_mono_test.c COPYONLY)
+add_executable(starfield_test starfield_test.c ${widget_dir}/starfield_scene.c
+               ${CMAKE_CURRENT_BINARY_DIR}/lvgl_display_mono_test.c)
+set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/lvgl_display_mono_test.c
+                           PROPERTIES COMPILE_OPTIONS "-Wno-unused-parameter")
 target_include_directories(starfield_test PRIVATE stubs . ${widget_dir})
 target_compile_options(starfield_test PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(starfield_test PRIVATE lvgl m)

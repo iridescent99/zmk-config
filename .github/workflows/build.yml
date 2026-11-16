@@ -94,8 +94,8 @@ jobs:
       - name: Package full-board gradient and detailed starfield pair
         run: |
           mkdir sofle-starfield
-          cp firmware/sofle_choc_pro_left_full_gradient.uf2 sofle-starfield/
-          cp firmware/sofle_choc_pro_right_full_gradient_starfield.uf2 sofle-starfield/
+          cp firmware/sofle_choc_pro_left_blue_lilac.uf2 sofle-starfield/
+          cp firmware/sofle_choc_pro_right_blue_lilac_starfield.uf2 sofle-starfield/
           python3 tests/keypress/verify_uf2.py sofle-starfield/*.uf2
           cp docs/sofle-full-gradient-starfield.md sofle-starfield/READ-ME-FIRST.md
           printf '%s\n' "$GITHUB_SHA" > sofle-starfield/SOURCE_COMMIT.txt
@@ -104,5 +104,5 @@ jobs:
           cat SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
-          name: sofle-full-gradient-starfield-matched
+          name: sofle-blue-lilac-starfield-matched
           path: sofle-starfield

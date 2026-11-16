@@ -1,4 +1,4 @@
-# Sofle Choc Pro BT — full-board gradient and detailed starfield
+# Sofle Choc Pro BT — light-blue/lilac gradient and dark-sky starfield
 
 A matched pair for the **58-key Keebart Sofle Choc Pro BT**, built from one commit.
 The left keypress visualiser, encoders, Studio, keymap, split communication and
@@ -6,16 +6,22 @@ computer pairings remain unchanged. There is no repair/reset code in this pair.
 
 | Half | File | Screen |
 |---|---|---|
-| Left | `sofle_choc_pro_left_full_gradient.uf2` | Latest key from either half, layer and status |
-| Right | `sofle_choc_pro_right_full_gradient_starfield.uf2` | Detailed drifting starfield, battery and connection |
+| Left | `sofle_choc_pro_left_blue_lilac.uf2` | Latest key from either half, layer and status |
+| Right | `sofle_choc_pro_right_blue_lilac_starfield.uf2` | Detailed drifting starfield, battery and connection |
 
 ## Appearance
 
-The lighting forms one stationary **lavender → lilac → pink** progression from
+The lighting forms one stationary **light blue → lilac** progression from
 outer left to outer right. Keys in the same physical column have the same colour;
 the right half continues the gradient. Thumb keys use their own horizontal
-positions. Palette anchors approximate the supplied reference: `#c4a8f0`,
-`#dd79e8`, `#e34eb8`. Actual LED colour depends on switches and keycaps.
+positions. Palette endpoints are `#60c0ff` (light blue) and `#a070ff` (blue-biased lilac),
+with the blue channel held at full scale throughout. The previous pink endpoint
+is removed. Actual LED colour depends on LEDs, switches and keycaps.
+
+The right screen has a **dark sky and white stars**. The previous version
+missed the polarity reversal in Zephyr’s MONO01 output for the Sharp LS0xx panel;
+this version compensates only the starfield canvas. Header and left-display
+polarity are unchanged.
 
 The right screen uses all 140×68 pixels below its 20-pixel status header:
 72 stars at three depths, a fine 85-point galactic ribbon, individually phased
@@ -29,19 +35,19 @@ store or transmit keys. The left typing display is unchanged.
 1. Extract this ZIP; in its directory run `sha256sum -c SHA256SUMS`.
 2. Unplug both halves and switch both off.
 3. Connect **right** by USB, double-press its recessed reset button underneath
-   near USB, and copy **only** `sofle_choc_pro_right_full_gradient_starfield.uf2`
+   near USB, and copy **only** `sofle_choc_pro_right_blue_lilac_starfield.uf2`
    onto the **KEEBART** drive. Wait for reboot, unplug it and leave it off.
 4. Connect **left**, double-press reset and copy **only**
-   `sofle_choc_pro_left_full_gradient.uf2` onto KEEBART. Wait for reboot.
+   `sofle_choc_pro_left_blue_lilac.uf2` onto KEEBART. Wait for reboot.
 5. Turn both on; leave USB connected to the **left**. Wait ten seconds.
 
 For terminal copying, substitute the mount path shown by your file manager:
 
 ```sh
-cp -- sofle_choc_pro_right_full_gradient_starfield.uf2 /media/"$USER"/KEEBART/
+cp -- sofle_choc_pro_right_blue_lilac_starfield.uf2 /media/"$USER"/KEEBART/
 sync
 # After connecting the left half and entering its bootloader:
-cp -- sofle_choc_pro_left_full_gradient.uf2 /media/"$USER"/KEEBART/
+cp -- sofle_choc_pro_left_blue_lilac.uf2 /media/"$USER"/KEEBART/
 sync
 ```
 
@@ -54,7 +60,7 @@ preferences only; it does not change identity, bonds or Studio settings.
 
 - Q and J both type normally and both appear on the left display.
 - Compare colours vertically: Q/A/Z should match; U/J/M should match. The
-  outer left should be pale lavender and outer right pink. Inner thumb colours
+  outer left should be light blue and outer right lilac. Inner thumb colours
   should meet smoothly. Report the row/keys if any colour jumps backwards.
 - Right stars drift smoothly, occasional meteors pass, and battery/connection
   icons remain visible when status changes. Test both encoders and the Mac.
@@ -88,8 +94,10 @@ remain separately available.
 
 Host tests cover all 60 LED positions, same-column equality, the split boundary,
 brightness/off at every level, 2,000 starfield frames in both orientations,
-buffer bounds and counter overflow. Pinned-LVGL integration tests cover rendering,
-header isolation, idle/sleep/wake and the existing left display. CI compiles both
+buffer bounds and counter overflow. Integration tests compile the actual pinned Zephyr monochrome transfer adapter
+alongside LVGL and verify the physical packed bits: dark background and white
+stars through 184 frames, plus header isolation and idle/sleep/wake. Existing
+left-display tests also run. CI compiles both
 correct Sofle board targets with `sharp_mip sofle_gradient`, and checks the two
 UF2 files against application-partition boundaries. Build checks do not establish
 physical BLE reliability, latency, battery life, perceived colour or LCD smoothness.
