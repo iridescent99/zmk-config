@@ -87,7 +87,12 @@ host input-field types. Disable the feature at build time when that is unwanted.
 ## Build and tests
 
 GitHub: push the feature branch, open Actions → **Build ZMK firmware**, and
-download the `firmware` artifact from the successful run for that exact commit.
+download the `sofle-left-firmware` artifact from the successful run for that exact
+commit. It contains only the new left UF2, original-display left UF2, these
+instructions, source commit and SHA-256 checksums. Packaging verifies each UF2's
+block format, nRF52840 family, vectors and addresses: all payload writes must be
+inside the existing application partition, never settings or bootloader storage.
+The full Keebart matrix remains available in the separate `firmware` artifact.
 The **Keypress model tests** workflow runs the same C state machine with address
 and undefined-behavior sanitizers. Model tests also run locally:
 

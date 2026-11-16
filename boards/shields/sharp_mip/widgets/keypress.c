@@ -56,7 +56,7 @@ static void draw_status(void) {
     lv_draw_label_dsc_t dsc;
     init_label_dsc(&dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_RIGHT);
     lv_canvas_draw_text(canvas, 34, 4, 34, &dsc, battery);
-    char connection[12];
+    char connection[20];
     if (s->selected_endpoint.transport == ZMK_TRANSPORT_USB) {
         snprintf(connection, sizeof(connection), "USB%s", zmk_usb_is_hid_ready() ? "" : " -");
     } else {
@@ -64,7 +64,7 @@ static void draw_status(void) {
                  s->active_profile_connected ? "OK" : s->active_profile_bonded ? "OFF" : "NEW");
     }
     text(canvas, 25, &lv_font_unscii_8, connection);
-    char fallback[9];
+    char fallback[10];
     snprintf(fallback, sizeof(fallback), "LAYER %u", s->layer_index);
     const char *name = layer_label(s);
     /* Bound custom Studio names to the available width without scrolling. */
