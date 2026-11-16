@@ -17,6 +17,9 @@
 #include <zmk/usb.h>
 #include "status.h"
 #include "keypress_model.h"
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_REPAIR)
+#include "split_repair.h"
+#endif
 
 #define FRAME_MS 25
 
@@ -64,6 +67,9 @@ static void draw_status(void) {
                  s->active_profile_connected ? "OK" : s->active_profile_bonded ? "OFF" : "NEW");
     }
     text(canvas, 25, &lv_font_unscii_8, connection);
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_REPAIR)
+    text(canvas, 37, &lv_font_unscii_8, sofle_split_repair_status());
+#endif
     char fallback[10];
     snprintf(fallback, sizeof(fallback), "LAYER %u", s->layer_index);
     const char *name = layer_label(s);

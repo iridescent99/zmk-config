@@ -13,6 +13,9 @@
 #include <zmk/split/bluetooth/uuid.h>
 #include "split_diagnostics.h"
 #include "util.h"
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_REPAIR)
+#include "split_repair.h"
+#endif
 
 /* Activity timestamps only: no key positions, usages, text, or event history. */
 static atomic_t key_tick = ATOMIC_INIT(-1001);
@@ -96,6 +99,9 @@ void sofle_split_diag_draw(lv_obj_t *canvas) {
     for (unsigned i = 0; i < 3; i++) {
         lv_canvas_draw_text(canvas, 1, 22 + 13 * i, 66, &dsc, lines[i]);
     }
+#if IS_ENABLED(CONFIG_SOFLE_SPLIT_REPAIR)
+    lv_canvas_draw_text(canvas, 1, 59, 66, &dsc, sofle_split_repair_status());
+#endif
 }
 
 void sofle_split_diag_init(void (*redraw)(void)) {

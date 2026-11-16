@@ -93,3 +93,15 @@ include:
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_SOFLE_SPLIT_DIAGNOSTICS=y
     artifact-name: sofle_choc_pro_right_diagnostics
+
+  # Explicit one-time split-bond recovery. Never included in the normal package.
+  - board: sofle_choc_pro_left
+    shield: sharp_mip
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_SOFLE_KEYPRESS_DISPLAY=y -DCONFIG_SOFLE_SPLIT_REPAIR=y
+    artifact-name: sofle_choc_pro_left_split_repair
+  - board: sofle_choc_pro_right
+    shield: sharp_mip
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_SOFLE_SPLIT_DIAGNOSTICS=y -DCONFIG_SOFLE_SPLIT_REPAIR=y
+    artifact-name: sofle_choc_pro_right_split_repair

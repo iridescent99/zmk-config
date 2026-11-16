@@ -52,6 +52,20 @@ config SOFLE_SPLIT_DIAGNOSTICS
         in the right status area. No key identity, history, logging, persistent
         writes, bond changes or transport changes. Disable after diagnosis.
 
+config SOFLE_SPLIT_REPAIR
+    bool "One-time Sofle split-bond repair (preserve host profiles)"
+    depends on (BOARD_SOFLE_CHOC_PRO_LEFT || BOARD_SOFLE_CHOC_PRO_RIGHT)
+    depends on ZMK_SPLIT_BLE && BT_SETTINGS && SETTINGS_NVS
+    help
+        Explicit recovery image only. Before ZMK loads Bluetooth settings, remove
+        the known split peer's key/CCC/client-feature/service-changed records once.
+        Refuse ambiguous peers or host-profile overlaps. Preserve local Bluetooth
+        identity, host pairings, Studio and other settings. Adds an attempt marker
+        so later reboots and reflashes never repeat the deletion automatically.
+
+config MAIN_STACK_SIZE
+    default 2048 if SOFLE_SPLIT_REPAIR
+
 if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
 config SOFLE_KEYPRESS_DISPLAY
