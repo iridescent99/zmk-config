@@ -22,6 +22,9 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/ble.h>
 
 #include "peripheral_status.h"
+#if IS_ENABLED(CONFIG_SOFLE_RIGHT_ANIMATION)
+#include "right_animation.h"
+#endif
 #if IS_ENABLED(CONFIG_SOFLE_SPLIT_DIAGNOSTICS)
 #include "split_diagnostics.h"
 #endif
@@ -132,15 +135,23 @@ int top_pos = 92;
 int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget->obj = lv_obj_create(parent);
     lv_obj_set_size(widget->obj, 160, 68);
+#if IS_ENABLED(CONFIG_SOFLE_RIGHT_ANIMATION)
+    lv_obj_remove_style_all(widget->obj);
+    lv_obj_clear_flag(widget->obj, LV_OBJ_FLAG_SCROLLABLE);
+#endif
     lv_obj_t *top = lv_canvas_create(widget->obj);
     widget->status_canvas = top;
     lv_obj_align(top, LV_ALIGN_TOP_LEFT, top_pos, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
 
+#if IS_ENABLED(CONFIG_SOFLE_RIGHT_ANIMATION)
+    sofle_right_animation_init(widget->obj);
+#else
     lv_obj_t *art = lv_img_create(widget->obj);
     bool random = sys_rand32_get() & 1;
     lv_img_set_src(art, random ? &balloon : &mountain);
     lv_obj_align(art, LV_ALIGN_TOP_LEFT, art_pos, 0);
+#endif
 
     sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();

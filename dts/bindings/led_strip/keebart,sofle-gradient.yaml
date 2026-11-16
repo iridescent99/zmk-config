@@ -1,0 +1,12 @@
+description: Sofle LED strip hue-gradient filter
+compatible: "keebart,sofle-gradient"
+include: base.yaml
+properties:
+  strip:
+    type: phandle
+    required: true
+    description: Existing WS2812 strip to drive
+  chain-length:
+    type: int
+    required: true
+    description: Must match the physical strip's LED count

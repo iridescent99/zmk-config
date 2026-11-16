@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+if SHIELD_SOFLE_GRADIENT
+config SOFLE_GRADIENT
+    def_bool y
+    depends on BOARD_SOFLE_CHOC_PRO_LEFT || BOARD_SOFLE_CHOC_PRO_RIGHT
+    depends on ZMK_RGB_UNDERGLOW
+endif

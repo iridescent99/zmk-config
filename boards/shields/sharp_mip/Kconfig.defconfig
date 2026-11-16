@@ -62,6 +62,16 @@ config SOFLE_SPLIT_DIAGNOSTICS
         in the right status area. No key identity, history, logging, persistent
         writes, bond changes or transport changes. Disable after diagnosis.
 
+config SOFLE_RIGHT_ANIMATION
+    bool "Orbiting moon on the Sofle peripheral screen"
+    depends on BOARD_SOFLE_CHOC_PRO_RIGHT && !ZMK_SPLIT_ROLE_CENTRAL
+    depends on ZMK_DISPLAY && SHARP_MIP_WIDGET_STATUS && ZMK_DISPLAY_WORK_QUEUE_DEDICATED
+    depends on !SOFLE_SPLIT_DIAGNOSTICS
+    help
+        Replace the static right artwork with a monochrome planet and orbiting
+        moon at four frames per second. Keep battery and connection status.
+        Pause on idle/sleep. All drawing runs on the existing display queue.
+
 config SOFLE_SPLIT_REPAIR
     bool "One-time Sofle split-bond repair (preserve host profiles)"
     depends on (BOARD_SOFLE_CHOC_PRO_LEFT || BOARD_SOFLE_CHOC_PRO_RIGHT)

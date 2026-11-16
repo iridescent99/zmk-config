@@ -46,6 +46,21 @@ jobs:
         with:
           name: sofle-lilac-matched
           path: sofle-lilac
+      - name: Package static gradient and right-screen animation pair
+        run: |
+          mkdir sofle-gradient
+          cp firmware/sofle_choc_pro_left_gradient.uf2 sofle-gradient/
+          cp firmware/sofle_choc_pro_right_gradient_orbit.uf2 sofle-gradient/
+          python3 tests/keypress/verify_uf2.py sofle-gradient/*.uf2
+          cp docs/sofle-gradient-orbit.md sofle-gradient/READ-ME-FIRST.md
+          printf '%s\n' "$GITHUB_SHA" > sofle-gradient/SOURCE_COMMIT.txt
+          cd sofle-gradient
+          sha256sum *.uf2 > SHA256SUMS
+          cat SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sofle-gradient-orbit-matched
+          path: sofle-gradient
       - name: Package read-only right diagnostics separately
         run: |
           mkdir sofle-diagnostics

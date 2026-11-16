@@ -1,0 +1,11 @@
+/* SPDX-License-Identifier: MIT */
+/ {
+    chosen {
+        zmk,underglow = &sofle_gradient;
+    };
+    sofle_gradient: sofle_gradient {
+        compatible = "keebart,sofle-gradient";
+        strip = <&led_strip>;
+        chain-length = <30>;
+    };
+};
