@@ -7,3 +7,14 @@ jobs:
       - uses: actions/checkout@v4
       - run: sh tests/keypress/run.sh
       - run: sh tests/split_repair/run.sh
+      - run: sh tests/lilac/run.sh
+      - uses: actions/checkout@v4
+        with:
+          repository: zephyrproject-rtos/lvgl
+          ref: 8a6a2d1d29d17d1e4bdc94c243c146a39d635fdd
+          path: .test-lvgl
+      - name: Exercise actual display adapter with pinned monochrome LVGL
+        run: |
+          cmake -S tests/display -B /tmp/sofle-display-test -DLVGL_SOURCE="$PWD/.test-lvgl"
+          cmake --build /tmp/sofle-display-test --target display_test -j2
+          /tmp/sofle-display-test/display_test

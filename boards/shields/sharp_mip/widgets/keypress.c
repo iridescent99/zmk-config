@@ -24,6 +24,9 @@
 #define FRAME_MS 25
 
 static struct zmk_widget_status *display_widget;
+static lv_obj_t *status_canvas;
+static lv_obj_t *key_canvas;
+static lv_obj_t *modifiers_canvas;
 static struct k_spinlock model_lock;
 static struct keypress_model model;
 static bool ready;
@@ -51,7 +54,7 @@ static const char *layer_label(const struct status_state *s) {
 static void draw_status(void) {
     struct zmk_widget_status *w = display_widget;
     struct status_state *s = &w->state;
-    lv_obj_t *canvas = lv_obj_get_child(w->obj, 0);
+    lv_obj_t *canvas = status_canvas;
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
     draw_battery(canvas, s);
     char battery[6];
@@ -82,7 +85,7 @@ static void draw_status(void) {
 
 static void draw_key(const char *label) {
     struct zmk_widget_status *w = display_widget;
-    lv_obj_t *canvas = lv_obj_get_child(w->obj, 1);
+    lv_obj_t *canvas = key_canvas;
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
     const lv_font_t *font = &lv_font_montserrat_48;
     if (lv_txt_get_width(label, strlen(label), font, 0, LV_TEXT_FLAG_NONE) > 64) {
@@ -97,7 +100,7 @@ static void draw_key(const char *label) {
 
 static void draw_modifiers(uint8_t mods) {
     struct zmk_widget_status *w = display_widget;
-    lv_obj_t *canvas = lv_obj_get_child(w->obj, 2);
+    lv_obj_t *canvas = modifiers_canvas;
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
     char line[9];
     snprintf(line, sizeof(line), "%s %s", mods & 0x11 ? "CTRL" : "    ",
@@ -204,6 +207,7 @@ int zmk_widget_status_init(struct zmk_widget_status *w, lv_obj_t *parent) {
     lv_obj_set_size(w->obj, 160, 68);
     lv_obj_clear_flag(w->obj, LV_OBJ_FLAG_SCROLLABLE);
     lv_color_t *buffers[] = {w->cbuf, w->cbuf2, w->cbuf3};
+    lv_obj_t **canvases[] = {&status_canvas, &key_canvas, &modifiers_canvas};
 #if IS_ENABLED(CONFIG_SHARP_MIP_ROTATE_180)
     const int positions[] = {0, 68, 136};
 #else
@@ -211,6 +215,7 @@ int zmk_widget_status_init(struct zmk_widget_status *w, lv_obj_t *parent) {
 #endif
     for (unsigned i = 0; i < 3; i++) {
         lv_obj_t *canvas = lv_canvas_create(w->obj);
+        *canvases[i] = canvas;
         lv_obj_align(canvas, LV_ALIGN_TOP_LEFT, positions[i], 0);
         lv_canvas_set_buffer(canvas, buffers[i], CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
     }

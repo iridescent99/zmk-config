@@ -42,6 +42,16 @@ config SHARP_MIP_WIDGET_INVERTED
 config SHARP_MIP_ROTATE_180
     bool "Rotate Sharp MIP display 180 degrees"
 
+config SOFLE_LILAC_LIGHTING
+    bool "Start both Sofle halves with solid lilac lighting"
+    depends on (BOARD_SOFLE_CHOC_PRO_LEFT || BOARD_SOFLE_CHOC_PRO_RIGHT)
+    depends on ZMK_RGB_UNDERGLOW && ZMK_RGB_UNDERGLOW_EXT_POWER && SETTINGS
+    help
+        Apply solid lilac and enable LED power after saved settings load. This
+        overrides a saved RGB-off state at boot; normal lighting controls and
+        idle power saving still work. Only RGB/power preferences are updated.
+        Bluetooth bonds, Studio mappings and the keymap are never touched.
+
 config SOFLE_SPLIT_DIAGNOSTICS
     bool "Temporary read-only Sofle right split diagnostics"
     depends on BOARD_SOFLE_CHOC_PRO_RIGHT && ZMK_SPLIT_BLE && !ZMK_SPLIT_ROLE_CENTRAL

@@ -31,6 +31,21 @@ jobs:
         with:
           name: sofle-matched-firmware
           path: sofle-matched
+      - name: Package daily-use lilac pair without repair code
+        run: |
+          mkdir sofle-lilac
+          cp firmware/sofle_choc_pro_left_display_lilac.uf2 sofle-lilac/
+          cp firmware/sofle_choc_pro_right_lilac.uf2 sofle-lilac/
+          python3 tests/keypress/verify_uf2.py sofle-lilac/*.uf2
+          cp docs/sofle-lilac-pair.md sofle-lilac/READ-ME-FIRST.md
+          printf '%s\n' "$GITHUB_SHA" > sofle-lilac/SOURCE_COMMIT.txt
+          cd sofle-lilac
+          sha256sum *.uf2 > SHA256SUMS
+          cat SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sofle-lilac-matched
+          path: sofle-lilac
       - name: Package read-only right diagnostics separately
         run: |
           mkdir sofle-diagnostics

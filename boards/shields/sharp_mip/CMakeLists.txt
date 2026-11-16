@@ -3,6 +3,7 @@ if(CONFIG_ZMK_DISPLAY AND CONFIG_SHARP_MIP_WIDGET_STATUS)
   zephyr_library_sources(custom_status_screen.c)
   zephyr_library_sources(widgets/bolt.c)
   zephyr_library_sources(widgets/util.c)
+  zephyr_library_sources_ifdef(CONFIG_SOFLE_LILAC_LIGHTING widgets/lilac_lighting.c)
   zephyr_library_sources_ifdef(CONFIG_SOFLE_SPLIT_REPAIR
     widgets/split_repair.c widgets/split_repair_plan.c)
 
