@@ -4,4 +4,11 @@ config SOFLE_GRADIENT
     def_bool y
     depends on BOARD_SOFLE_CHOC_PRO_LEFT || BOARD_SOFLE_CHOC_PRO_RIGHT
     depends on ZMK_RGB_UNDERGLOW
+config SOFLE_PHYSICAL_GRADIENT
+    bool "One lavender-to-pink gradient across both Sofle halves"
+    depends on SOFLE_GRADIENT
+    help
+        Map each LED to physical X using Keebart's provisional Bluetooth-board
+        map. Use a fixed lavender/lilac/pink palette; brightness and off controls
+        work, hue/saturation are intentionally replaced by this palette.
 endif

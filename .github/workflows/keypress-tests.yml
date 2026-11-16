@@ -9,6 +9,7 @@ jobs:
       - run: sh tests/split_repair/run.sh
       - run: sh tests/lilac/run.sh
       - run: sh tests/gradient/run.sh
+      - run: sh tests/display/run_scene.sh
       - uses: actions/checkout@v4
         with:
           repository: zephyrproject-rtos/lvgl
@@ -21,3 +22,5 @@ jobs:
           /tmp/sofle-display-test/display_test
           cmake --build /tmp/sofle-display-test --target orbit_test -j2
           /tmp/sofle-display-test/orbit_test
+          cmake --build /tmp/sofle-display-test --target starfield_test -j2
+          /tmp/sofle-display-test/starfield_test

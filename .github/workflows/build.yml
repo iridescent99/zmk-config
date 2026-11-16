@@ -90,3 +90,19 @@ jobs:
         with:
           name: sofle-split-bond-repair
           path: sofle-split-repair
+
+      - name: Package full-board gradient and detailed starfield pair
+        run: |
+          mkdir sofle-starfield
+          cp firmware/sofle_choc_pro_left_full_gradient.uf2 sofle-starfield/
+          cp firmware/sofle_choc_pro_right_full_gradient_starfield.uf2 sofle-starfield/
+          python3 tests/keypress/verify_uf2.py sofle-starfield/*.uf2
+          cp docs/sofle-full-gradient-starfield.md sofle-starfield/READ-ME-FIRST.md
+          printf '%s\n' "$GITHUB_SHA" > sofle-starfield/SOURCE_COMMIT.txt
+          cd sofle-starfield
+          sha256sum *.uf2 > SHA256SUMS
+          cat SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sofle-full-gradient-starfield-matched
+          path: sofle-starfield

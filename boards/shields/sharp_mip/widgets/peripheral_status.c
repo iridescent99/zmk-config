@@ -29,6 +29,10 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include "split_diagnostics.h"
 #endif
 
+#if IS_ENABLED(CONFIG_SOFLE_RIGHT_STARFIELD)
+#include "right_starfield.h"
+#endif
+
 LV_IMG_DECLARE(balloon);
 LV_IMG_DECLARE(mountain);
 
@@ -135,7 +139,7 @@ int top_pos = 92;
 int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget->obj = lv_obj_create(parent);
     lv_obj_set_size(widget->obj, 160, 68);
-#if IS_ENABLED(CONFIG_SOFLE_RIGHT_ANIMATION)
+#if IS_ENABLED(CONFIG_SOFLE_RIGHT_ANIMATION) || IS_ENABLED(CONFIG_SOFLE_RIGHT_STARFIELD)
     lv_obj_remove_style_all(widget->obj);
     lv_obj_clear_flag(widget->obj, LV_OBJ_FLAG_SCROLLABLE);
 #endif
@@ -144,7 +148,9 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     lv_obj_align(top, LV_ALIGN_TOP_LEFT, top_pos, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
 
-#if IS_ENABLED(CONFIG_SOFLE_RIGHT_ANIMATION)
+#if IS_ENABLED(CONFIG_SOFLE_RIGHT_STARFIELD)
+    sofle_right_starfield_init(widget->obj);
+#elif IS_ENABLED(CONFIG_SOFLE_RIGHT_ANIMATION)
     sofle_right_animation_init(widget->obj);
 #else
     lv_obj_t *art = lv_img_create(widget->obj);

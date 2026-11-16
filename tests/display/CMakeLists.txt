@@ -11,3 +11,8 @@ add_executable(orbit_test orbit_test.c ${widget_dir}/util.c ${widget_dir}/bolt.c
 target_include_directories(orbit_test PRIVATE stubs . ${widget_dir})
 target_compile_options(orbit_test PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(orbit_test PRIVATE lvgl m)
+
+add_executable(starfield_test starfield_test.c ${widget_dir}/starfield_scene.c)
+target_include_directories(starfield_test PRIVATE stubs . ${widget_dir})
+target_compile_options(starfield_test PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(starfield_test PRIVATE lvgl m)

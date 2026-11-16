@@ -6,6 +6,7 @@
 #include <zephyr/init.h>
 #include <zephyr/sys/util.h>
 #include "gradient_color.h"
+#include "physical_gradient.h"
 
 #define PIXELS DT_INST_PROP(0, chain_length)
 #define BACKEND DT_INST_PHANDLE(0, strip)
@@ -17,8 +18,14 @@ static int update(const struct device *dev, struct led_rgb *pixels, size_t count
     ARG_UNUSED(dev);
     if (count > PIXELS || (!pixels && count)) { return -EINVAL; }
     for (size_t i = 0; i < count; i++) {
+#if IS_ENABLED(CONFIG_SOFLE_PHYSICAL_GRADIENT)
+        struct gradient_rgb rgb = sofle_physical_gradient(
+            (struct gradient_rgb){pixels[i].r, pixels[i].g, pixels[i].b},
+            IS_ENABLED(CONFIG_BOARD_SOFLE_CHOC_PRO_RIGHT), i);
+#else
         struct gradient_rgb rgb = sofle_gradient_color(
             (struct gradient_rgb){pixels[i].r, pixels[i].g, pixels[i].b}, i, PIXELS);
+#endif
         pixels[i].r = rgb.r; pixels[i].g = rgb.g; pixels[i].b = rgb.b;
     }
     return led_strip_update_rgb(backend, pixels, count);

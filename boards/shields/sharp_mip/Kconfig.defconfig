@@ -72,6 +72,16 @@ config SOFLE_RIGHT_ANIMATION
         moon at four frames per second. Keep battery and connection status.
         Pause on idle/sleep. All drawing runs on the existing display queue.
 
+config SOFLE_RIGHT_STARFIELD
+    bool "Detailed drifting starfield on the Sofle peripheral screen"
+    depends on BOARD_SOFLE_CHOC_PRO_RIGHT && !ZMK_SPLIT_ROLE_CENTRAL
+    depends on ZMK_DISPLAY && SHARP_MIP_WIDGET_STATUS && ZMK_DISPLAY_WORK_QUEUE_DEDICATED
+    depends on !SOFLE_SPLIT_DIAGNOSTICS && !SOFLE_RIGHT_ANIMATION
+    help
+        Full-height monochrome space scene with three star depths, twinkling,
+        a distant galactic ribbon and shooting stars. Eight frames per second,
+        paused at idle/sleep. Preserves the battery and connection header.
+
 config SOFLE_SPLIT_REPAIR
     bool "One-time Sofle split-bond repair (preserve host profiles)"
     depends on (BOARD_SOFLE_CHOC_PRO_LEFT || BOARD_SOFLE_CHOC_PRO_RIGHT)
