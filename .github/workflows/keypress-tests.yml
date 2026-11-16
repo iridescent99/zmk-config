@@ -1,0 +1,8 @@
+name: Keypress model tests
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sh tests/keypress/run.sh

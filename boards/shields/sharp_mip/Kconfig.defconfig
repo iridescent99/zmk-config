@@ -44,6 +44,17 @@ config SHARP_MIP_ROTATE_180
 
 if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
+config SOFLE_KEYPRESS_DISPLAY
+    bool "Show the latest resolved key on the Sofle central display"
+    depends on BOARD_SOFLE_CHOC_PRO_LEFT && ZMK_DISPLAY && SHARP_MIP_WIDGET_STATUS
+    depends on ZMK_DISPLAY_WORK_QUEUE_DEDICATED
+    select LV_FONT_MONTSERRAT_48
+    select LV_FONT_MONTSERRAT_26
+    help
+        Replace the central status widget with a transient key label, held
+        modifiers, battery, connection and active layer. No key history is
+        stored or transmitted. Disable to restore the original status widget.
+
 config SHARP_MIP_WIDGET_STATUS
     select LV_FONT_MONTSERRAT_18
     select LV_FONT_MONTSERRAT_14
