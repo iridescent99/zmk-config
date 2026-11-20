@@ -6,7 +6,7 @@ This is a ZMK firmware layer. It emits ordinary keyboard HID keystrokes, so it w
 
 **Hold LOWER (left thumb) and tap SPACE (right thumb)** to toggle LaTeX mode. Repeat the same chord to exit. No existing BASE key was changed. Keep RAISE, LOWER, and ADJUST functionality when the layer is off.
 
-While LaTeX mode is active, number keys, Space, Enter, Backspace, Escape, punctuation, modifier keys, encoders and navigation keys inherit their previous behavior. Only the A-Z keys produce LaTeX macros.
+While LaTeX mode is active, number keys, Space, Enter, Backspace, Escape, punctuation, modifier keys and encoders inherit their previous behavior. The A-Z keys produce LaTeX macros. **RAISE navigation shortcuts on letter positions (e.g. RAISE+I/J/K/L) do not take precedence over the active LaTeX layer**: toggle LaTeX off first when you need them.
 
 ## Key reference
 
