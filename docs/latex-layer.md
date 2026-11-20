@@ -37,7 +37,7 @@ Here `|` is the cursor, **not** a character that the macro inserts. ZMK types th
 
 ## Firmware build and flashing
 
-1. Use the **Build ZMK firmware** GitHub Actions run for the final commit on `feature/sofle-live-keypress-display`.
+1. On the PR branch, manually run **Actions → Build ZMK firmware → Run workflow**, selecting `feat/latex-layer-display-20261120`. Once the PR is validated and merged, select `feature/sofle-live-keypress-display` for subsequent builds. GitHub App commits may not start Actions automatically.
 2. Download `sofle-blue-lilac-starfield-matched` to preserve the live key display, physical gradient lighting, and right starfield. The paired UF2 images are named `sofle_choc_pro_left_blue_lilac.uf2` and `sofle_choc_pro_right_blue_lilac_starfield.uf2`. A plain default firmware pair is also available in the generic `firmware` artifact.
 3. Back up the existing working UF2 files.
 4. Connect the left half by USB. Double-press its recessed reset switch to mount the `KEEBART` bootloader drive; copy **only the left UF2** to that drive.
