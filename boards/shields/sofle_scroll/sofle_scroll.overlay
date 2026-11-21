@@ -1,27 +1,38 @@
 /* SPDX-License-Identifier: MIT */
 #include <dt-bindings/zmk/pointing.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 /*
  * A rotary detent is a discrete action, not a held mouse key. ZMK v0.3's
- * scroll behavior integrates velocity over its reporting period. At 125
+ * two-axis input driver integrates velocity over its reporting period. At 125
  * units/second and an 8 ms period it emits one wheel unit per report; a
  * 12 ms tap allows one report, then releases before the second is due.
  * Keeping this short avoids a long release queue during quick rotation.
  */
-&msc {
-    trigger-period-ms = <8>;
-    time-to-max-speed-ms = <0>;
-    acceleration-exponent = <0>;
-};
-
 / {
     behaviors {
+        /* A dedicated instance keeps normal mouse keys/Studio timing intact. */
+        sofle_encoder_wheel: sofle_encoder_wheel {
+            compatible = "zmk,behavior-input-two-axis";
+            #binding-cells = <1>;
+            x-input-code = <INPUT_REL_HWHEEL>;
+            y-input-code = <INPUT_REL_WHEEL>;
+            trigger-period-ms = <8>;
+            time-to-max-speed-ms = <0>;
+            acceleration-exponent = <0>;
+        };
+
         sofle_encoder_scroll: sofle_encoder_scroll {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             tap-ms = <12>;
             /* Clockwise scrolls down; counter-clockwise scrolls up. */
-            bindings = <&msc MOVE_Y(-125)>, <&msc MOVE_Y(125)>;
+            bindings = <&sofle_encoder_wheel MOVE_Y(-125)>, <&sofle_encoder_wheel MOVE_Y(125)>;
         };
+    };
+
+    sofle_encoder_wheel_input_listener {
+        compatible = "zmk,input-listener";
+        device = <&sofle_encoder_wheel>;
     };
 };

@@ -65,8 +65,9 @@ to preference, swap the two `MOVE_Y` bindings in `sofle_scroll.overlay` and rebu
 
 ## Design and validation
 
-The optional shield enables `CONFIG_ZMK_POINTING` and binds the stock ZMK `msc`
-behavior through a sensor rotation behavior. It uses 125 wheel units/second,
+The optional shield enables `CONFIG_ZMK_POINTING` and gives the stock ZMK
+two-axis input driver a dedicated scroll instance, bound through a sensor
+rotation behavior. It uses 125 wheel units/second,
 an 8 ms report interval and a 12 ms press/release: nominally one wheel report
 per detent, with a short behavior queue. Scheduler timing and host wheel settings
 still need physical validation. High-resolution/smooth scrolling is left off.
