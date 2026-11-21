@@ -1,10 +1,78 @@
 name: Build ZMK firmware
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - feat/latex-layer-display-20261120
+  workflow_dispatch:
+
+concurrency:
+  group: zmk-firmware-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
+  cancel-obsolete:
+    name: Cancel previous LaTeX branch runs
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Cancel obsolete queued and active workflow runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF_NAME" != "feat/latex-layer-display-20261120" ]]; then exit 0; fi
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs?branch=$GITHUB_REF_NAME&per_page=100" \
+            --jq '.workflow_runs[] | select(.status != "completed") | .id' | while read -r run_id; do
+              if [[ "$run_id" != "$GITHUB_RUN_ID" ]]; then
+                if gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/cancel" >/dev/null 2>&1; then
+                  echo "Cancellation requested for obsolete run $run_id"
+                else
+                  echo "Could not cancel $run_id (may already be finishing or token lacks permission)"
+                fi
+              fi
+            done
 
+  validate:
+    name: Validate before firmware matrix
+    needs: cancel-obsolete
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tests/keypress/latex_keymap_test.py
+      - run: sh tests/keypress/run.sh
+      - run: sh tests/split_repair/run.sh
+      - run: sh tests/lilac/run.sh
+      - run: sh tests/gradient/run.sh
+      - run: sh tests/display/run_scene.sh
+      - uses: actions/checkout@v4
+        with:
+          repository: zephyrproject-rtos/lvgl
+          ref: 8a6a2d1d29d17d1e4bdc94c243c146a39d635fdd
+          path: .test-lvgl
+      - uses: actions/checkout@v4
+        with:
+          repository: zephyrproject-rtos/zephyr
+          ref: dacab4875df72109b96cc8977547a0dc04875bcd
+          path: .test-zephyr
+          sparse-checkout: modules/lvgl/lvgl_display_mono.c
+          sparse-checkout-cone-mode: false
+      - name: Test actual display renderer with pinned LVGL
+        run: |
+          cmake -S tests/display -B /tmp/sofle-display-test -DLVGL_SOURCE="$PWD/.test-lvgl" -DZEPHYR_SOURCE="$PWD/.test-zephyr"
+          cmake --build /tmp/sofle-display-test --target display_test -j2
+          /tmp/sofle-display-test/display_test
+          cmake --build /tmp/sofle-display-test --target orbit_test -j2
+          /tmp/sofle-display-test/orbit_test
+          cmake --build /tmp/sofle-display-test --target starfield_test -j2
+          /tmp/sofle-display-test/starfield_test
+
+  build:
+    needs: validate
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
   sofle-delivery:
     name: Verify and package matched Sofle firmware
     needs: build
