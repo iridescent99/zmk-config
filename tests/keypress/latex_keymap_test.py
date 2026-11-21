@@ -38,6 +38,10 @@ assert "then-layer = <LATEX_OPS>;" in node("latex_ops_conditional")
 assert '#define LATEX 4' in KEYMAP
 assert '#define LATEX_OPS 5' in KEYMAP
 
+# ZMK generated symbols fold case in node names. Enforce unique identifiers.
+labels = re.findall(r"\\b(lx_[A-Za-z]+):\\s+\\1\\s+\\{", KEYMAP)
+assert len(labels) == len(set(name.lower() for name in labels)), "case-folded ZMK macro names collide"
+
 commands = {
     "sigma", "Delta", "phi", "pi", "neg", "equiv", "subseteq", "leq", "geq",
     "land", "lor", "cup", "cap", "notin", "Rightarrow", "rightarrow", "bot",
@@ -45,7 +49,8 @@ commands = {
 }
 # Verify every new macro emits exactly the intended US HID command characters.
 for command in commands:
-    body = node("lx_" + command)
+    label = {"Delta": "bigdelta", "Rightarrow": "doublearrow"}.get(command, command)
+    body = node("lx_" + label)
     m = re.search(r"\bbindings\s*=\s*<(.+?)>;", body, re.S)
     assert m, command
     actual = re.findall(r"&kp\s+([A-Z][A-Z0-9_]*(?:\([A-Z]\))?)", m.group(1))
@@ -58,9 +63,9 @@ for command in commands:
 # Position-based operator page, physical QWERTY rows.
 expected = {
     (1, 1): "rightarrow", (1, 2): "overline", (1, 3): "equiv",
-    (1, 4): "Rightarrow", (1, 5): "top", (1, 6): "iff",
+    (1, 4): "doublearrow", (1, 5): "top", (1, 6): "iff",
     (1, 7): "subseteq", (1, 8): "notin", (1, 9): "omega", (1, 10): "pi",
-    (2, 1): "approx", (2, 2): "sigma", (2, 3): "Delta",
+    (2, 1): "approx", (2, 2): "sigma", (2, 3): "bigdelta",
     (2, 4): "phi", (2, 5): "geq", (2, 7): "land",
     (2, 8): "lor", (2, 9): "leq",
     (3, 3): "cup", (3, 4): "cap", (3, 5): "bot",
