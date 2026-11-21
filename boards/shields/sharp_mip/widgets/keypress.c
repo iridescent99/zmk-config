@@ -48,6 +48,7 @@ static const char *layer_label(const struct status_state *s) {
     if (!strcmp(name, "lower")) { return "NUM/SYM"; }
     if (!strcmp(name, "raise")) { return "NAV"; }
     if (!strcmp(name, "adjust")) { return "ADJUST"; }
+    if (!strcmp(name, "latex")) { return "LATEX"; }
     return name;
 }
 
@@ -83,18 +84,29 @@ static void draw_status(void) {
     rotate_canvas(canvas, w->cbuf);
 }
 
+/* Layer name lives in the same portrait segment, directly above the key.
+ * A state-change redraw updates it even when no HID keycode is emitted. */
 static void draw_key(const char *label) {
     struct zmk_widget_status *w = display_widget;
     lv_obj_t *canvas = key_canvas;
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
+
+    char layer[9];
+    const char *name = layer_label(&w->state);
+    snprintf(layer, sizeof(layer), "%.8s", name ? name : "QWERTY");
+    text(canvas, 1, &lv_font_unscii_8, layer);
+
+    const int key_top = 12;
+    const int key_height = CANVAS_SIZE - key_top;
     const lv_font_t *font = &lv_font_montserrat_48;
-    if (lv_txt_get_width(label, strlen(label), font, 0, LV_TEXT_FLAG_NONE) > 64) {
+    if (lv_txt_get_width(label, strlen(label), font, 0, LV_TEXT_FLAG_NONE) > 64 ||
+        font->line_height > key_height) {
         font = &lv_font_montserrat_26;
     }
     if (lv_txt_get_width(label, strlen(label), font, 0, LV_TEXT_FLAG_NONE) > 64) {
         font = &lv_font_montserrat_16;
     }
-    text(canvas, (68 - font->line_height) / 2, font, label);
+    text(canvas, key_top + (key_height - font->line_height) / 2, font, label);
     rotate_canvas(canvas, w->cbuf2);
 }
 
@@ -192,6 +204,8 @@ static struct status_state status_get(const zmk_event_t *eh) {
 static void status_update(struct status_state state) {
     display_widget->state = state;
     draw_status();
+    /* Layer toggles have no keycode event: repaint the label above the key. */
+    draw_key(shown_label);
 }
 ZMK_DISPLAY_WIDGET_LISTENER(sofle_keypress_status, struct status_state, status_update, status_get)
 ZMK_SUBSCRIPTION(sofle_keypress_status, zmk_battery_state_changed);
