@@ -6,50 +6,50 @@ This is a **ZMK firmware keymap**, not an app plugin. Key combinations type lite
 
 - **Toggle LaTeX on/off:** hold the left thumb **LOWER**, tap the right thumb **SPACE**, release.
 - **Operator page:** while LaTeX is on, **hold RAISE** (right thumb); release it to return to the primary LaTeX mappings. The layer label changes from `LATEX` to `LATEX OP`.
-- **Backslash:** in LaTeX mode press the ordinary physical **/** key for a literal ``\\`` (the key at the far right of the bottom letter row). Outside LaTeX, the original **LOWER + /** also produces backslash.
+- **Backslash:** in LaTeX mode press the ordinary physical **/** key for a literal ``\`` (the key at the far right of the bottom letter row). Outside LaTeX, the original **LOWER + /** also produces backslash.
 - The digit row, normal whitespace, modifiers and encoder controls still work. In LaTeX mode, use the RAISE operator page instead of RAISE's ordinary navigation bindings. Toggle LaTeX off for normal navigation.
 
 ## Primary LaTeX page
 
 | Key | LaTeX | Key | LaTeX |
 | --- | --- | --- | --- |
-| A | `\\alpha` | N | `\\nabla` |
-| B | `\\beta` | O | `\\Omega` |
-| C | `\\cdot` | P | `\\partial` |
-| D | `\\delta` | Q | `\\quad` |
-| E | `\\epsilon` | R | `\\sqrt{}` |
-| F | `\\frac{}{}` | S | `\\sum_{}^{}` |
-| G | `\\gamma` | T | `\\theta` |
-| H | `\\hbar` | U | `\\infty` |
-| I | `\\int_{}^{}` | V | `\\vec{}` |
-| J | `\\approx` | W | `\\omega` |
-| K | `\\kappa` | X | `\\times` |
-| L | `\\lambda` | Y | `\\psi` |
-| M | `\\mu` | Z | `\\zeta` |
+| A | `\alpha` | N | `\nabla` |
+| B | `\beta` | O | `\Omega` |
+| C | `\cdot` | P | `\partial` |
+| D | `\delta` | Q | `\quad` |
+| E | `\epsilon` | R | `\sqrt{}` |
+| F | `\frac{}{}` | S | `\sum_{}^{}` |
+| G | `\gamma` | T | `\theta` |
+| H | `\hbar` | U | `\infty` |
+| I | `\int_{}^{}` | V | `\vec{}` |
+| J | `\approx` | W | `\omega` |
+| K | `\kappa` | X | `\times` |
+| L | `\lambda` | Y | `\psi` |
+| M | `\mu` | Z | `\zeta` |
 
 ## RAISE + LaTeX operator page
 
 | Key | LaTeX | Key | LaTeX |
 | --- | --- | --- | --- |
-| A | `\\approx` | N | `\\neg` |
-| B | `\\bot` | O | `\\omega` |
-| C | `\\cup` | P | `\\pi` |
-| D | `\\Delta` | Q | `\\rightarrow` |
-| E | `\\equiv` | R | `\\Rightarrow` |
-| F | `\\phi` | S | `\\sigma` |
-| G | `\\geq` | T | `\\top` |
-| H | `\\hat{}` | U | `\\subseteq` |
-| I | `\\notin` | V | `\\cap` |
-| J | `\\land` | W | `\\overline{}` |
-| K | `\\lor` | Y | `\\iff` |
-| L | `\\leq` | , | `\\langle` |
-| . | `\\rangle` | / | `\\` |
+| A | `\approx` | N | `\neg` |
+| B | `\bot` | O | `\omega` |
+| C | `\cup` | P | `\pi` |
+| D | `\Delta` | Q | `\rightarrow` |
+| E | `\equiv` | R | `\Rightarrow` |
+| F | `\phi` | S | `\sigma` |
+| G | `\geq` | T | `\top` |
+| H | `\hat{}` | U | `\subseteq` |
+| I | `\notin` | V | `\cap` |
+| J | `\land` | W | `\overline{}` |
+| K | `\lor` | Y | `\iff` |
+| L | `\leq` | , | `\langle` |
+| . | `\rangle` | / | `\` |
 
 Unlisted operator-page positions pass through to the primary LaTeX layer. The keys selected for the operator page are mnemonic where practical: **S**igma, **P**i, **F**hi, **E**quiv, **N**eg, **U** (subset), **L**ess, **G**reater, **B**ot and **T**op.
 
-Templates place the caret inside the argument: `\\hat{|}`, `\\overline{|}`, `\\frac{|}{}`, `\\sqrt{|}`, `\\int_{|}^{}`, `\\sum_{|}^{}` and `\\vec{|}`. The vertical bar in these examples represents the insertion point, not a typed character.
+Templates place the caret inside the argument: `\hat{|}`, `\overline{|}`, `\frac{|}{}`, `\sqrt{|}`, `\int_{|}^{}`, `\sum_{|}^{}` and `\vec{|}`. The vertical bar in these examples represents the insertion point, not a typed character.
 
-**Mathematical syntax note:** LaTeX control words such as `\\sigma` must be separated from following letters by a space or braces. Neither the keyboard nor the display interprets formulas or inserts automatic delimiters. `\\Rightarrow` (double arrow), `\\rightarrow` (single arrow), `\\equiv` and `\\iff` are distinct.
+**Mathematical syntax note:** LaTeX control words such as `\sigma` must be separated from following letters by a space or braces. Neither the keyboard nor the display interprets formulas or inserts automatic delimiters. `\Rightarrow` (double arrow), `\rightarrow` (single arrow), `\equiv` and `\iff` are distinct.
 
 ## Display behavior
 
@@ -70,6 +70,6 @@ The existing settings/flash storage and Bluetooth pairings are not intentionally
 
 ## Constraints
 
-- These are US HID keycodes. A host keyboard layout that translates punctuation differently can change literal `\\`, `{`, `}`, `^`, and `_` output.
+- These are US HID keycodes. A host keyboard layout that translates punctuation differently can change literal `\`, `{`, `}`, `^`, and `_` output.
 - Macros use 35 ms wait/tap timings to reduce out-of-order Bluetooth output.
 - No changes to the physical key-switch positions, pairing, rotary encoders or right-display art.
