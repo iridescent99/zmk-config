@@ -108,7 +108,7 @@ int main(void) {
     test_layer_index = 0; test_layer_name = "default";
     status_update(status_get(NULL)); advance(54);
     key(0x0d, false); advance(1050); assert(key_pixels() > idle_pixels + 30);
-    advance(1051); assert(key_pixels() == 0 && !render_work.pending && !expire_work.pending);
+    advance(1051); assert(key_pixels() == idle_pixels && !render_work.pending && !expire_work.pending);
     /* Rapid distinct taps cannot keep rescheduling the pending frame forever. */
     for (unsigned i = 0; i < 1000; i++) {
         key(4 + i % 26, true); key(4 + i % 26, false); advance(now + 2);
