@@ -15,6 +15,7 @@
 #define RAISE 2
 #define ADJUST 3
 #define LATEX 4
+#define LATEX_OPS 5
 
 / {
 
@@ -23,209 +24,393 @@
     lx_quad: lx_quad {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp Q &kp U &kp A &kp D>;
     };
 
     lx_omega: lx_omega {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp O &kp M &kp E &kp G &kp A>;
     };
 
     lx_epsilon: lx_epsilon {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp E &kp P &kp S &kp I &kp L &kp O &kp N>;
     };
 
     lx_sqrt: lx_sqrt {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp S &kp Q &kp R &kp T &kp LBRC &kp RBRC &kp LEFT>;
     };
 
     lx_theta: lx_theta {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp T &kp H &kp E &kp T &kp A>;
     };
 
     lx_psi: lx_psi {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp P &kp S &kp I>;
     };
 
     lx_infty: lx_infty {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp I &kp N &kp F &kp T &kp Y>;
     };
 
     lx_integral: lx_integral {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp I &kp N &kp T &kp LS(MINUS) &kp LBRC &kp RBRC &kp CARET &kp LBRC &kp RBRC &kp LEFT &kp LEFT &kp LEFT &kp LEFT>;
     };
 
     lx_bigomega: lx_bigomega {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp LS(O) &kp M &kp E &kp G &kp A>;
     };
 
     lx_partial: lx_partial {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp P &kp A &kp R &kp T &kp I &kp A &kp L>;
     };
 
     lx_alpha: lx_alpha {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp A &kp L &kp P &kp H &kp A>;
     };
 
     lx_sum: lx_sum {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp S &kp U &kp M &kp LS(MINUS) &kp LBRC &kp RBRC &kp CARET &kp LBRC &kp RBRC &kp LEFT &kp LEFT &kp LEFT &kp LEFT>;
     };
 
     lx_delta: lx_delta {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp D &kp E &kp L &kp T &kp A>;
     };
 
     lx_frac: lx_frac {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp F &kp R &kp A &kp C &kp LBRC &kp RBRC &kp LBRC &kp RBRC &kp LEFT &kp LEFT &kp LEFT>;
     };
 
     lx_gamma: lx_gamma {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp G &kp A &kp M &kp M &kp A>;
     };
 
     lx_hbar: lx_hbar {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp H &kp B &kp A &kp R>;
     };
 
     lx_approx: lx_approx {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp A &kp P &kp P &kp R &kp O &kp X>;
     };
 
     lx_kappa: lx_kappa {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp K &kp A &kp P &kp P &kp A>;
     };
 
     lx_lambda: lx_lambda {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp L &kp A &kp M &kp B &kp D &kp A>;
     };
 
     lx_zeta: lx_zeta {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp Z &kp E &kp T &kp A>;
     };
 
     lx_times: lx_times {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp T &kp I &kp M &kp E &kp S>;
     };
 
     lx_cdot: lx_cdot {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp C &kp D &kp O &kp T>;
     };
 
     lx_vec: lx_vec {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp V &kp E &kp C &kp LBRC &kp RBRC &kp LEFT>;
     };
 
     lx_beta: lx_beta {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp B &kp E &kp T &kp A>;
     };
 
     lx_nabla: lx_nabla {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp N &kp A &kp B &kp L &kp A>;
     };
 
     lx_mu: lx_mu {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      wait-ms = <20>;
-      tap-ms = <20>;
+      wait-ms = <35>;
+      tap-ms = <35>;
       bindings = <&kp BSLH &kp M &kp U>;
+    };
+
+    lx_sigma: lx_sigma {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp S &kp I &kp G &kp M &kp A>;
+    };
+
+    lx_Delta: lx_Delta {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp LS(D) &kp E &kp L &kp T &kp A>;
+    };
+
+    lx_phi: lx_phi {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp P &kp H &kp I>;
+    };
+
+    lx_pi: lx_pi {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp P &kp I>;
+    };
+
+    lx_neg: lx_neg {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp N &kp E &kp G>;
+    };
+
+    lx_equiv: lx_equiv {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp E &kp Q &kp U &kp I &kp V>;
+    };
+
+    lx_subseteq: lx_subseteq {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp S &kp U &kp B &kp S &kp E &kp T &kp E &kp Q>;
+    };
+
+    lx_leq: lx_leq {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp L &kp E &kp Q>;
+    };
+
+    lx_geq: lx_geq {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp G &kp E &kp Q>;
+    };
+
+    lx_land: lx_land {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp L &kp A &kp N &kp D>;
+    };
+
+    lx_lor: lx_lor {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp L &kp O &kp R>;
+    };
+
+    lx_cup: lx_cup {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp C &kp U &kp P>;
+    };
+
+    lx_cap: lx_cap {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp C &kp A &kp P>;
+    };
+
+    lx_notin: lx_notin {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp N &kp O &kp T &kp I &kp N>;
+    };
+
+    lx_Rightarrow: lx_Rightarrow {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp LS(R) &kp I &kp G &kp H &kp T &kp A &kp R &kp R &kp O &kp W>;
+    };
+
+    lx_rightarrow: lx_rightarrow {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp R &kp I &kp G &kp H &kp T &kp A &kp R &kp R &kp O &kp W>;
+    };
+
+    lx_bot: lx_bot {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp B &kp O &kp T>;
+    };
+
+    lx_top: lx_top {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp T &kp O &kp P>;
+    };
+
+    lx_iff: lx_iff {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp I &kp F &kp F>;
+    };
+
+    lx_hat: lx_hat {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp H &kp A &kp T &kp LBRC &kp RBRC &kp LEFT>;
+    };
+
+    lx_overline: lx_overline {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp O &kp V &kp E &kp R &kp L &kp I &kp N &kp E &kp LBRC &kp RBRC &kp LEFT>;
+    };
+
+    lx_langle: lx_langle {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp L &kp A &kp N &kp G &kp L &kp E>;
+    };
+
+    lx_rangle: lx_rangle {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      wait-ms = <35>;
+      tap-ms = <35>;
+      bindings = <&kp BSLH &kp R &kp A &kp N &kp G &kp L &kp E>;
     };
   };
 
@@ -235,6 +420,10 @@
     adjust_layer {
       if-layers = <LOWER RAISE>;
       then-layer = <ADJUST>;
+    };
+    latex_ops_conditional {
+      if-layers = <LATEX RAISE>;
+      then-layer = <LATEX_OPS>;
     };
   };
 
@@ -322,8 +511,21 @@
         &trans   &trans     &trans       &trans     &trans     &trans                        &trans     &trans       &trans        &trans        &trans       &trans
         &trans   &lx_quad   &lx_omega    &lx_epsilon &lx_sqrt   &lx_theta                    &lx_psi    &lx_infty    &lx_integral &lx_bigomega  &lx_partial  &trans
         &trans   &lx_alpha  &lx_sum      &lx_delta   &lx_frac   &lx_gamma                    &lx_hbar   &lx_approx   &lx_kappa    &lx_lambda    &trans       &trans
-        &trans   &lx_zeta   &lx_times    &lx_cdot    &lx_vec    &lx_beta   &trans  &trans     &lx_nabla  &lx_mu       &trans       &trans        &trans       &trans
+        &trans  &lx_zeta  &lx_times  &lx_cdot  &lx_vec  &lx_beta  &trans  &trans  &lx_nabla  &lx_mu  &trans  &trans  &kp BSLH  &trans
         &trans   &trans     &trans       &trans      &trans     &trans     &trans     &trans      &trans      &trans
+      >;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+    };
+
+    // Hold RAISE in LaTeX mode for operators, set theory and extra Greek.
+    latex_operator_layer {
+      display-name = "LATEX OP";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &lx_rightarrow &lx_overline &lx_equiv &lx_Rightarrow &lx_top &lx_iff &lx_subseteq &lx_notin &lx_omega &lx_pi &trans
+        &trans &lx_approx &lx_sigma &lx_Delta &lx_phi &lx_geq &trans &lx_land &lx_lor &lx_leq &trans &trans
+        &trans &trans &trans &lx_cup &lx_cap &lx_bot &trans &trans &lx_neg &trans &lx_langle &lx_rangle &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
       >;
       sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
     };
