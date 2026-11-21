@@ -12,9 +12,7 @@
 
 // Only the optional scroll build changes the right-side sensor. Keep the stock
 // media binding available in every existing firmware variant for rollback.
-#ifdef CONFIG_SHIELD_SOFLE_SCROLL
-#define SOFLE_RIGHT_ENCODER &sofle_encoder_scroll
-#else
+#ifndef SOFLE_RIGHT_ENCODER
 #define SOFLE_RIGHT_ENCODER &inc_dec_kp C_PREV C_NEXT
 #endif
 

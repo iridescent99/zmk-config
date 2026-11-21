@@ -2,6 +2,10 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
+/* Shields are preprocessed before the keymap. Select this binding here rather
+ * than testing a CONFIG_ symbol: Zephyr evaluates devicetree before Kconfig. */
+#define SOFLE_RIGHT_ENCODER &sofle_encoder_scroll
+
 /*
  * A rotary detent is a discrete action, not a held mouse key. ZMK v0.3's
  * two-axis input driver integrates velocity over its reporting period. At 125

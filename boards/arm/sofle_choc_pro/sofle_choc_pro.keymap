@@ -11,9 +11,7 @@
 #include <dt-bindings/zmk/ext_power.h>
 
 // Match config/sofle_choc_pro.keymap when this board default is used directly.
-#ifdef CONFIG_SHIELD_SOFLE_SCROLL
-#define SOFLE_RIGHT_ENCODER &sofle_encoder_scroll
-#else
+#ifndef SOFLE_RIGHT_ENCODER
 #define SOFLE_RIGHT_ENCODER &inc_dec_kp C_PREV C_NEXT
 #endif
 

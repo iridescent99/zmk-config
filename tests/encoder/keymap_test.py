@@ -22,7 +22,8 @@ def main():
         headers = Path(directory)
         for relative in KEYMAPS:
             source = ROOT / relative
-            for name in re.findall(r"^#include <([^>]+)>", source.read_text(), re.M):
+            overlay = ROOT / "boards/shields/sofle_scroll/sofle_scroll.overlay"
+            for name in re.findall(r"^#include <([^>]+)>", source.read_text() + overlay.read_text(), re.M):
                 header = headers / name
                 header.parent.mkdir(parents=True, exist_ok=True)
                 header.touch()
@@ -31,9 +32,15 @@ def main():
                 # Zephyr uses assembler-with-cpp mode so devicetree properties
                 # such as #binding-cells pass through instead of being directives.
                 command = ["cpp", "-x", "assembler-with-cpp", "-P", "-nostdinc", "-I", directory]
-                if scroll:
-                    command.append("-DCONFIG_SHIELD_SOFLE_SCROLL=1")
-                return subprocess.check_output([*command, str(source)], text=True, timeout=10)
+                command += ["-I", str(overlay.parent), "-"]
+                # Mirror Zephyr's actual shield-before-keymap include ordering.
+                # CONFIG_ symbols are not available during devicetree processing.
+                prefix = '#include "sofle_scroll.overlay"\n' if scroll else ""
+                result = subprocess.run(command, input=prefix + "SOFLE_KEYMAP_START\n" + source.read_text(),
+                                        capture_output=True, text=True, timeout=10)
+                if result.returncode:
+                    raise RuntimeError(result.stderr[:1500])
+                return result.stdout.split("SOFLE_KEYMAP_START", 1)[1]
 
             stock, scroll = expand(False), expand(True)
             before, after = SENSORS.findall(stock), SENSORS.findall(scroll)
