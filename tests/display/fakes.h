@@ -61,9 +61,11 @@ static inline int zmk_ble_active_profile_index(void) { return 0; }
 static inline bool zmk_ble_active_profile_is_connected(void) { return false; }
 static inline bool zmk_ble_active_profile_is_open(void) { return false; }
 typedef int zmk_keymap_layer_index_t;
-static inline int zmk_keymap_highest_layer_active(void) { return 0; }
+extern int test_layer_index;
+extern const char *test_layer_name;
+static inline int zmk_keymap_highest_layer_active(void) { return test_layer_index; }
 static inline int zmk_keymap_layer_index_to_id(int i) { return i; }
-static inline const char *zmk_keymap_layer_name(int i) { (void)i; return "default"; }
+static inline const char *zmk_keymap_layer_name(int i) { (void)i; return test_layer_name; }
 int k_work_cancel_delayable(struct k_work_delayable *);
 enum zmk_activity_state { ZMK_ACTIVITY_ACTIVE, ZMK_ACTIVITY_IDLE, ZMK_ACTIVITY_SLEEP };
 enum zmk_activity_state zmk_activity_get_state(void);
