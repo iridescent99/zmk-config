@@ -232,3 +232,8 @@ Corne Choc Pro supports four encoder definitions:
 Sofle Choc Pro uses one encoder for volume and the other for previous/next
 media track. The encoder actions are available on its default, Lower, and
 Raise layers.
+
+For the setup with a single right encoder, the optional
+[right-encoder scroll pair](docs/sofle-encoder-scroll.md) emits ordinary mouse-wheel
+events in the browser, Zellij and other applications. It retains the current
+LaTeX layers and daily-use visuals; the original firmware variants remain available.

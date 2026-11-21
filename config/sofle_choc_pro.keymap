@@ -10,6 +10,14 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/ext_power.h>
 
+// Only the optional scroll build changes the right-side sensor. Keep the stock
+// media binding available in every existing firmware variant for rollback.
+#ifdef CONFIG_SHIELD_SOFLE_SCROLL
+#define SOFLE_RIGHT_ENCODER &sofle_encoder_scroll
+#else
+#define SOFLE_RIGHT_ENCODER &inc_dec_kp C_PREV C_NEXT
+#endif
+
 #define BASE 0
 #define LOWER 1
 #define RAISE 2
@@ -446,7 +454,7 @@
         &kp LGUI &kp LALT &kp LCTRL &mo LOWER  &kp RET    &kp SPACE  &mo RAISE  &kp RCTRL &kp RALT  &kp RGUI
       >;
 
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
     lower_layer {
@@ -465,7 +473,7 @@
         &trans    &trans      &trans    &trans     &trans &tog LATEX  &trans    &trans   &trans    &trans
       >;
 
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
     raise_layer {
@@ -484,7 +492,7 @@
         &trans       &trans       &trans       &trans        &trans  &trans  &trans    &trans    &trans   &trans
       >;
 
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
     adjust_layer {
@@ -514,7 +522,7 @@
         &trans  &lx_zeta  &lx_times  &lx_cdot  &lx_vec  &lx_beta  &trans  &trans  &lx_nabla  &lx_mu  &trans  &trans  &kp BSLH  &trans
         &trans   &trans     &trans       &trans      &trans     &trans     &trans     &trans      &trans      &trans
       >;
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
     // Hold RAISE in LaTeX mode for operators, set theory and extra Greek.
@@ -527,7 +535,7 @@
         &trans &trans &trans &lx_cup &lx_cap &lx_bot &trans &trans &lx_neg &trans &lx_langle &lx_rangle &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
       >;
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
   };

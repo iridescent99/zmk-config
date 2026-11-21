@@ -10,6 +10,13 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/ext_power.h>
 
+// Match config/sofle_choc_pro.keymap when this board default is used directly.
+#ifdef CONFIG_SHIELD_SOFLE_SCROLL
+#define SOFLE_RIGHT_ENCODER &sofle_encoder_scroll
+#else
+#define SOFLE_RIGHT_ENCODER &inc_dec_kp C_PREV C_NEXT
+#endif
+
 #define BASE 0
 #define LOWER 1
 #define RAISE 2
@@ -45,7 +52,7 @@
         &kp LGUI &kp LALT &kp LCTRL &mo LOWER  &kp RET    &kp SPACE  &mo RAISE  &kp RCTRL &kp RALT  &kp RGUI
       >;
 
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
     lower_layer {
@@ -64,7 +71,7 @@
         &trans    &trans      &trans    &trans     &trans &trans  &trans    &trans   &trans    &trans
       >;
 
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
     raise_layer {
@@ -83,7 +90,7 @@
         &trans       &trans       &trans       &trans        &trans  &trans  &trans    &trans    &trans   &trans
       >;
 
-      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_PREV C_NEXT>;
+      sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP SOFLE_RIGHT_ENCODER>;
     };
 
     adjust_layer {

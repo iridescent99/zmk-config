@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feat/latex-layer-display-20261120
+      - right-encoder-scroll
   workflow_dispatch:
 
 concurrency:
@@ -43,6 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 tests/keypress/latex_keymap_test.py
+      - run: python3 tests/encoder/keymap_test.py
       - run: sh tests/keypress/run.sh
       - run: sh tests/split_repair/run.sh
       - run: sh tests/lilac/run.sh
@@ -174,3 +176,18 @@ jobs:
         with:
           name: sofle-blue-lilac-starfield-matched
           path: sofle-starfield
+      - name: Package right-encoder scroll pair
+        run: |
+          mkdir sofle-scroll
+          cp firmware/sofle_choc_pro_left_scroll.uf2 sofle-scroll/
+          cp firmware/sofle_choc_pro_right_scroll.uf2 sofle-scroll/
+          python3 tests/keypress/verify_uf2.py sofle-scroll/*.uf2
+          cp docs/sofle-encoder-scroll.md sofle-scroll/READ-ME-FIRST.md
+          printf '%s\n' "$GITHUB_SHA" > sofle-scroll/SOURCE_COMMIT.txt
+          cd sofle-scroll
+          sha256sum *.uf2 > SHA256SUMS
+          cat SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sofle-right-encoder-scroll
+          path: sofle-scroll
