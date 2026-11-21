@@ -39,7 +39,8 @@ assert '#define LATEX 4' in KEYMAP
 assert '#define LATEX_OPS 5' in KEYMAP
 
 # ZMK generated symbols fold case in node names. Enforce unique identifiers.
-labels = re.findall(r"\\b(lx_[A-Za-z]+):\\s+\\1\\s+\\{", KEYMAP)
+labels = re.findall(r"\b(lx_[A-Za-z]+):\s+\1\s+\{", KEYMAP)
+assert len(labels) >= 49, len(labels)
 assert len(labels) == len(set(name.lower() for name in labels)), "case-folded ZMK macro names collide"
 
 commands = {
