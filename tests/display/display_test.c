@@ -8,6 +8,8 @@ static int64_t now;
 static struct k_work_q queue;
 static uint8_t framebuffer[160 * 68];
 static unsigned flushes;
+int test_layer_index;
+const char *test_layer_name = "default";
 int64_t k_uptime_get(void) { return now; }
 struct k_work_q *zmk_display_work_q(void) { return &queue; }
 int k_work_schedule_for_queue(struct k_work_q *q, struct k_work_delayable *w, int64_t delay) {
@@ -53,6 +55,16 @@ static unsigned key_pixels(void) {
     }
     return n;
 }
+/* Compare the physical middle segment only, excluding separate status graphics. */
+static bool key_segment_changed(const uint8_t *before) {
+    for (int y = 0; y < 68; y++) {
+        for (int x = 68; x < 136; x++) {
+            int i = y * 160 + x;
+            if (before[i] != framebuffer[i]) { return true; }
+        }
+    }
+    return false;
+}
 int main(void) {
     lv_init();
     static lv_color_t drawbuf[160 * 68];
@@ -69,34 +81,47 @@ int main(void) {
     lv_obj_align(widget.obj, LV_ALIGN_TOP_LEFT, 0, 0);
     lv_scr_load(screen);
     advance(0);
-    assert(key_pixels() == 0);
+    const unsigned idle_pixels = key_pixels();
+    assert(idle_pixels > 0); /* Active layer name remains visible with no key down. */
     key(0x14, true); key(0x14, false); /* Q: a complete tap before render. */
-    advance(24); assert(key_pixels() == 0);
-    advance(25); assert(!strcmp(shown_label, "Q")); assert(key_pixels() > 30);
+    advance(24); assert(key_pixels() == idle_pixels);
+    advance(25); assert(!strcmp(shown_label, "Q")); assert(key_pixels() > idle_pixels + 30);
     static uint8_t q_frame[sizeof(framebuffer)];
     memcpy(q_frame, framebuffer, sizeof(framebuffer));
     key(0x0d, true); /* J, resolved identically when originating on the right. */
-    advance(50); assert(!strcmp(shown_label, "J")); assert(key_pixels() > 30);
+    advance(50); assert(!strcmp(shown_label, "J")); assert(key_pixels() > idle_pixels + 30);
     assert(memcmp(q_frame, framebuffer, sizeof(framebuffer)));
     /* A status update must not overwrite the central key canvas. */
     memcpy(q_frame, framebuffer, sizeof(framebuffer));
     status_update(status_get(NULL)); advance(51);
     assert(!memcmp(q_frame, framebuffer, sizeof(framebuffer)));
-    key(0x0d, false); advance(1050); assert(key_pixels() > 30);
+    /* Layer change must repaint the title ABOVE the large key, with no HID event. */
+    test_layer_index = 4; test_layer_name = "latex";
+    status_update(status_get(NULL)); advance(52);
+    assert(!strcmp(layer_label(&widget.state), "LATEX"));
+    assert(key_segment_changed(q_frame));
+    memcpy(q_frame, framebuffer, sizeof(framebuffer));
+    test_layer_index = 5; test_layer_name = "LATEX OP";
+    status_update(status_get(NULL)); advance(53);
+    assert(!strcmp(layer_label(&widget.state), "LATEX OP"));
+    assert(key_segment_changed(q_frame));
+    test_layer_index = 0; test_layer_name = "default";
+    status_update(status_get(NULL)); advance(54);
+    key(0x0d, false); advance(1050); assert(key_pixels() > idle_pixels + 30);
     advance(1051); assert(key_pixels() == 0 && !render_work.pending && !expire_work.pending);
     /* Rapid distinct taps cannot keep rescheduling the pending frame forever. */
     for (unsigned i = 0; i < 1000; i++) {
         key(4 + i % 26, true); key(4 + i % 26, false); advance(now + 2);
     }
-    advance(now + 25); assert(key_pixels() > 30);
-    advance(now + 1000); assert(key_pixels() == 0);
+    advance(now + 25); assert(key_pixels() > idle_pixels + 30);
+    advance(now + 1000); assert(key_pixels() == idle_pixels);
     unsigned last_flush = flushes;
     advance(now + 1000); assert(flushes == last_flush);
     const uint32_t specials[] = {0x28,0x29,0x2a,0x2c,0xe0,0xe1,0xe2,0xe3,0x4f,0x50,0x51,0x52};
     for (unsigned i = 0; i < sizeof(specials)/sizeof(*specials); i++) {
-        key(specials[i], true); advance(now + 25); assert(key_pixels() > 10);
+        key(specials[i], true); advance(now + 25); assert(key_pixels() > idle_pixels + 10);
         key(specials[i], false); advance(now + 1000);
     }
-    puts("PASS: real monochrome LVGL pixels, Q/J, tap coalescing, status isolation, expiry, special keys, no idle refresh");
+    puts("PASS: real LVGL key and layer-title pixels, live layer switching, Q/J, expiry, special keys, no idle refresh");
     return 0;
 }
