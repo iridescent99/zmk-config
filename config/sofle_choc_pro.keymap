@@ -237,7 +237,7 @@
       bindings = <&kp BSLH &kp S &kp I &kp G &kp M &kp A>;
     };
 
-    lx_Delta: lx_Delta {
+    lx_bigdelta: lx_bigdelta {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
       wait-ms = <35>;
@@ -341,7 +341,7 @@
       bindings = <&kp BSLH &kp N &kp O &kp T &kp I &kp N>;
     };
 
-    lx_Rightarrow: lx_Rightarrow {
+    lx_doublearrow: lx_doublearrow {
       compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
       wait-ms = <35>;
@@ -522,8 +522,8 @@
       display-name = "LATEX OP";
       bindings = <
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &lx_rightarrow &lx_overline &lx_equiv &lx_Rightarrow &lx_top &lx_iff &lx_subseteq &lx_notin &lx_omega &lx_pi &trans
-        &trans &lx_approx &lx_sigma &lx_Delta &lx_phi &lx_geq &trans &lx_land &lx_lor &lx_leq &trans &trans
+        &trans &lx_rightarrow &lx_overline &lx_equiv &lx_doublearrow &lx_top &lx_iff &lx_subseteq &lx_notin &lx_omega &lx_pi &trans
+        &trans &lx_approx &lx_sigma &lx_bigdelta &lx_phi &lx_geq &trans &lx_land &lx_lor &lx_leq &trans &trans
         &trans &trans &trans &lx_cup &lx_cap &lx_bot &trans &trans &lx_neg &trans &lx_langle &lx_rangle &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
       >;
