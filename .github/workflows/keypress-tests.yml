@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: python3 tests/keypress/latex_keymap_test.py
       - run: sh tests/keypress/run.sh
       - run: sh tests/split_repair/run.sh
       - run: sh tests/lilac/run.sh
